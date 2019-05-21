@@ -29,7 +29,7 @@ public class Harbour {
 		return -1;
 	}
 	
-	public synchronized void roadsteadOrUnload(Ship ship) {
+	public synchronized int roadstead(Ship ship) {
 		int freeDock;
 		while((freeDock = findFreeDock())==-1) {
 			try {
@@ -41,6 +41,11 @@ public class Harbour {
 			}
 		}
 		dock[freeDock] = true;
+		System.out.println("Ship " + ship.getName() + " goes into the dock #"+freeDock);
+		return freeDock;
+	}
+	
+	public void unload(Ship ship, int freeDock) {
 		for (Container container : ship.getCargo()) {
 			try {
 				Thread.sleep(500);
@@ -52,8 +57,13 @@ public class Harbour {
 				System.out.println("Dock #" + freeDock + " unloads " +  ship.getName() + " " + container.getDescription());
 			}
 		}
+	}
+	
+	public synchronized void leaveDock(Ship ship, int freeDock) {
+		System.out.println("Ship " + ship.getName() + " leaves the dock #"+freeDock);
 		dock[freeDock] = false;
 		notifyAll();
 	}
+	
 
 }

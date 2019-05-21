@@ -10,31 +10,39 @@ public class Main {
 		Ship ship1 = new Ship("Pequod");
 		Ship ship2 = new Ship("Jungfrau");
 		Ship ship3 = new Ship("Rachel");
-		Random rn = new Random();
 		for (int i = 0; i < 10; i++) {
-			ship1.loadCargo(new Container(String.format("%10h", rn.nextInt())));
-			ship2.loadCargo(new Container(String.format("%10h", rn.nextInt())));
-			ship3.loadCargo(new Container(String.format("%10h", rn.nextInt())));
+			ship1.loadCargo(new Container("Cargo " +(i+1)));
+			ship2.loadCargo(new Container("Cargo " +(i+1)));
+			ship3.loadCargo(new Container("Cargo " +(i+1)));
 		}
 		
 		Thread thread1 = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				harbour.roadsteadOrUnload(ship1);
+				System.out.println(ship1.getName() + " has come to the " + harbour.getName());
+				int freeDock = harbour.roadstead(ship1);
+				harbour.unload(ship1, freeDock);
+				harbour.leaveDock(ship1, freeDock);
 			}
 		});
 
 		Thread thread2 = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				harbour.roadsteadOrUnload(ship2);
+				System.out.println(ship2.getName() + " has come to the " + harbour.getName());
+				int freeDock = harbour.roadstead(ship2);
+				harbour.unload(ship2, freeDock);
+				harbour.leaveDock(ship2, freeDock);
 			}
 		});
 		
 		Thread thread3 = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				harbour.roadsteadOrUnload(ship3);
+				System.out.println(ship3.getName() + " has come to the " + harbour.getName());
+				int freeDock = harbour.roadstead(ship3);
+				harbour.unload(ship3, freeDock);
+				harbour.leaveDock(ship3, freeDock);
 			}
 		});
 		
