@@ -14,11 +14,10 @@ public class CommonBuffer {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		byte[] tmpBytes = new byte[1024];
+		byte[] tmpBytes = new byte[Buffer.BUFFER_SIZE];
 		System.arraycopy(this.buffer.getBuffer(), 0, tmpBytes, 0, this.buffer.getBytesInBuffer());
 		Buffer buffer = new Buffer();
 		buffer.setBuffer(tmpBytes);
@@ -33,29 +32,27 @@ public class CommonBuffer {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		this.buffer = buffer;
+		byte[] tmpBytes = new byte[Buffer.BUFFER_SIZE];
+		System.arraycopy(buffer.getBuffer(), 0, tmpBytes, 0, buffer.getBytesInBuffer());
+		this.buffer.setBuffer(tmpBytes);
+		this.buffer.setBytesInBuffer(buffer.getBytesInBuffer());
 		bufferReady = true;
 		notify();
 	}
 	
-	public boolean isBufferReady() {
-		return bufferReady;
-	}
-	
-	public void setBufferReady(boolean bufferReady) {
-		this.bufferReady = bufferReady;
-	}
 
 	public boolean isTerminate() {
 		return terminate;
 	}
 
-	public void setTerminate(boolean terminate) {
+	public synchronized void setTerminate(boolean terminate) {
 		this.terminate = terminate;
+		this.bufferReady = true;
+		this.buffer.setBytesInBuffer(0);
+		notifyAll();
 	}
 	
 	

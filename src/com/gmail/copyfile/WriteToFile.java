@@ -18,7 +18,6 @@ public class WriteToFile implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		try (OutputStream os = new FileOutputStream(destFile)) {
 			Buffer tmpBuffer = new Buffer();
 
@@ -27,19 +26,12 @@ public class WriteToFile implements Runnable {
 				os.write(tmpBuffer.getBuffer(), 0, tmpBuffer.getBytesInBuffer());
 			}
 			
-//			if (commonBufer.getBuffer().getBytesInBuffer() > 0) {
-//				tmpBuffer = commonBufer.getBuffer();
-//				os.write(tmpBuffer.getBuffer(), 0, tmpBuffer.getBytesInBuffer());
-//			}
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-	}
+		System.out.println(Thread.currentThread().getName()+" is terminated");	}
 
 }
