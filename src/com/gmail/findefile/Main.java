@@ -27,8 +27,8 @@ public class Main {
 			fileToFind = Paths.get(JOptionPane.showInputDialog("file to find"));
 			
 			ExecutorCompletionService<Path[]> completionService = new ExecutorCompletionService<Path[]>(Executors.newFixedThreadPool(4));
-			
 			ArrayList<Future<Path[]>> futures = new ArrayList<>();
+
 			final Path fileToFind1 = fileToFind;
 			Files.list(targetFolder).forEach((x) -> {
 				if (Files.isDirectory(x)) {
@@ -43,7 +43,7 @@ public class Main {
 			for (Future<Path[]> future : futures) {
 				try {
 					for (Path path : future.get()) {
-						if (path != null && path.toString() != "") {
+						if (path != null) {
 							System.out.println(path.toString());
 						}
 					}
@@ -56,11 +56,8 @@ public class Main {
 		}catch (NullPointerException e) {
 			System.out.println("file or folder has not been choosed");
 		}catch (IOException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
-
-		
 	}
-
+	
 }
